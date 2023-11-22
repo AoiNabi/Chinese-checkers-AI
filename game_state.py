@@ -1,4 +1,8 @@
 class GameState:
+    # inicializa la clase GameState y crea el tablero del juego con la disposición inicial de las 
+    # fichas para cada jugador. Define la estructura del tablero utilizando un diccionario (self.map) 
+    # donde las claves son coordenadas (x, y) y los valores representan el tipo de ficha o vacío en 
+    # esa posición.
     def __init__(self) -> None:
         self.map = {}
         # Green
@@ -33,6 +37,9 @@ class GameState:
             for x in range(8 - y):
                 self.map[(x, y + 5)] = 0
 
+    # Este método devuelve una lista de todos los movimientos posibles que puede realizar el jugador 
+    # actual en el estado de juego actual. Itera sobre las fichas del jugador actual y obtiene todos 
+    # los movimientos válidos para cada una de ellas.
     def getAvailableMoves(self, currentPlayer: int) -> list[tuple['GameState', tuple[int, int], tuple[int, int]]]:
         result: list[GameState] = []
         map = self.map
@@ -50,6 +57,7 @@ class GameState:
 
         return result
 
+    # Este método devuelve una lista de movimientos válidos para una ficha en una coordenada específica. Calcula los movimientos posibles, tanto movimientos normales como saltos (hops), verificando si las posiciones adyacentes están vacías o si se pueden realizar saltos sobre otras fichas.
     def getMarbleMoves(self, cords) -> list[tuple[int, int]]:
         result = []
 
@@ -110,6 +118,7 @@ class GameState:
 
         return result
 
+    # Este método realiza el movimiento de una ficha desde una posición inicial a una posición siguiente. Crea un nuevo estado de juego y actualiza la posición de la ficha, reflejando el movimiento realizado.
     def moveMarble(self, initial, next) -> 'GameState':
         result = GameState()
         result.map = self.map.copy()
@@ -119,6 +128,7 @@ class GameState:
 
         return result
 
+    # Calcula una heurística que evalúa la posición actual del juego. Determina una puntuación basada en la distribución de las fichas en el tablero para cada jugador, buscando favorecer la posición de un jugador sobre el otro.
     def getHeuristic(self) -> int:
         HR = 0
         HG = 0
