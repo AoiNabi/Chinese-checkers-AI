@@ -1,2 +1,2 @@
-# Quantum-chinese-checkers
+# Damas chinas AI
 The title describes the proyect by itself
