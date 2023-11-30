@@ -5,31 +5,31 @@ class GameState:
     # esa posición.
     def __init__(self) -> None:
         self.map = {}
-        # Green
+        # Color 1
         for y in range(4):
             for x in range(y + 1):
                 self.map[(x - y + 8), y - 4] = 1
-        # Blue
+        # Color 2
         for y in range(4):
             for x in range(4 - y):
                 self.map[(x, y)] = 0
-        # Purple
+        # Color 3
         for y in range(4):
             for x in range(y + 1):
                 self.map[(x - y - 1), y + 5] = 0
-        # Red
+        # Color 4
         for y in range(4):
             for x in range(4 - y):
                 self.map[(x, y + 9)] = 2
-        # Orange
+        # Color 5
         for y in range(4):
             for x in range(y + 1):
                 self.map[(x - y + 8), y + 5] = 0
-        # Yellow
+        # Color 6
         for y in range(4):
             for x in range(4 - y):
                 self.map[(x + 9, y)] = 0
-        # White
+        # Color 7
         for y in range(5):
             for x in range(y + 5):
                 self.map[(x - y + 4, y)] = 0
@@ -57,7 +57,9 @@ class GameState:
 
         return result
 
-    # Este método devuelve una lista de movimientos válidos para una ficha en una coordenada específica. Calcula los movimientos posibles, tanto movimientos normales como saltos (hops), verificando si las posiciones adyacentes están vacías o si se pueden realizar saltos sobre otras fichas.
+    # Este método devuelve una lista de movimientos válidos para una ficha en una coordenada específica. 
+    # Calcula los movimientos posibles, tanto movimientos normales como saltos (hops), verificando si las 
+    # posiciones adyacentes están vacías o si se pueden realizar saltos sobre otras fichas.
     def getMarbleMoves(self, cords) -> list[tuple[int, int]]:
         result = []
 
@@ -118,7 +120,8 @@ class GameState:
 
         return result
 
-    # Este método realiza el movimiento de una ficha desde una posición inicial a una posición siguiente. Crea un nuevo estado de juego y actualiza la posición de la ficha, reflejando el movimiento realizado.
+    # Este método realiza el movimiento de una ficha desde una posición inicial a una posición siguiente. 
+    # Crea un nuevo estado de juego y actualiza la posición de la ficha, reflejando el movimiento realizado.
     def moveMarble(self, initial, next) -> 'GameState':
         result = GameState()
         result.map = self.map.copy()
@@ -128,7 +131,9 @@ class GameState:
 
         return result
 
-    # Calcula una heurística que evalúa la posición actual del juego. Determina una puntuación basada en la distribución de las fichas en el tablero para cada jugador, buscando favorecer la posición de un jugador sobre el otro.
+    # Calcula una heurística que evalúa la posición actual del juego. Determina una puntuación basada en 
+    # la distribución de las fichas en el tablero para cada jugador, buscando favorecer la posición de un
+    # jugador sobre el otro.
     def getHeuristic(self) -> int:
         HR = 0
         HG = 0
@@ -160,8 +165,8 @@ class GameState:
         # topside
         topSideFull = True
         botSideFull = True
-        redWin = False
-        greenWin = False
+        blueWin = False
+        yellowWin = False
         for y in range(4):
             for x in range(y + 1):
                 # self.map[(x - y + 8), y - 4] = 1
@@ -169,8 +174,8 @@ class GameState:
                     if (self.map[(x - y + 8), y - 4] == 0):
                         topSideFull = False
                     elif (self.map[(x - y + 8), y - 4] == 2):
-                        redWin = True
-        if (topSideFull and redWin):
+                        blueWin = True
+        if (topSideFull and blueWin):
             return 2
 
         # botside
@@ -181,8 +186,8 @@ class GameState:
                     if (self.map[(x, y + 9)] == 0):
                         botSideFull = False
                     elif (self.map[(x, y + 9)] == 1):
-                        greenWin = True
-        if (botSideFull and greenWin):
+                        yellowWin = True
+        if (botSideFull and yellowWin):
             return 1
 
         return 0
